@@ -22,9 +22,17 @@ def getAvailableValues(currentSudoko, a, b): # function to get the available val
                 availValues.remove(currentSudoko[i][j])
     return availValues
 
+def checkCompleteness(board):
+    for i in range(9):
+        for j in range(9):
+            if board[i][j] == -1:
+                return False
+    return True
 
 def backtracking(board):
     ## first, check of completness
+    if checkCompleteness(board) == True:
+        return [True, board]
     for i in range(9):
         for j in range(9):
             if board[i][j] == -1:
@@ -37,16 +45,18 @@ def backtracking(board):
                     val = backtracking(tempBoard)
                     if val[0] == True:
                         return val
-    return [True, board]
+                return [0, ""]
 
 # -----------------------Main--------------------------
 i = -1
 f = open("sudoko.txt", 'r+')
-for line in f:
-    i = i + 1
+for i in range(9):
+    #i = i + 1
+    line = f.readline()
     values = line.split(',')
+    print(len(values))
     for j in range(9):
-        if values[j] != '_' and values[j] != '_\n':
+        if values[j] != '_':
             initialSudoko[i][j] = (int) (values[j])
         else:
             initialSudoko[i][j] = -1
